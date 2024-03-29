@@ -1,0 +1,3 @@
+[submodule "NeMo"]
+	path = NeMo
+	url = git@github.com:xingyaoww/NeMo.git
