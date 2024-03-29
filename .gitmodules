@@ -4,3 +4,6 @@
 [submodule "NeMo-Megatron-Launcher"]
 	path = NeMo-Megatron-Launcher
 	url = git@github.com:xingyaoww/NeMo-Megatron-Launcher.git
+[submodule "Megatron-LM"]
+	path = Megatron-LM
+	url = git@github.com:xingyaoww/Megatron-LM.git
