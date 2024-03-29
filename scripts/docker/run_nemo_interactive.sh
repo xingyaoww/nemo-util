@@ -2,7 +2,8 @@
 DOCKER_IMG=nvcr.io/nvidia/nemo:24.01.01.framework
 
 WORK_DIR=`pwd`
-MODEL_DIR=TODO # Your model directory
+# MODEL_DIR= # Your model directory
+# -v $MODEL_DIR:/models \
 
 docker run \
     --gpus all \
@@ -11,7 +12,6 @@ docker run \
     --net=host \
     --ulimit memlock=-1 \
     --rm -it \
-    -v $MODEL_DIR:/models \
     -v ${PWD}:/workspace \
     -w /workspace \
     $DOCKER_IMG \
