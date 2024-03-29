@@ -2,8 +2,14 @@
 DOCKER_IMG=nvcr.io/nvidia/nemo:24.01.01.framework
 
 WORK_DIR=`pwd`
-# MODEL_DIR= # Your model directory
-# -v $MODEL_DIR:/models \
+
+# read model directory from ENV VAR, if exists add it to the docker run command
+if [ -z "$MODEL_DIR" ]; then
+    echo "MODEL_DIR is not set. Please set MODEL_DIR to the directory containing the model files."
+else
+    echo "MODEL_DIR is set to '$MODEL_DIR'"
+    EXTRA_ARGS="-v $MODEL_DIR:/models"
+fi
 
 docker run \
     --gpus all \
@@ -12,6 +18,7 @@ docker run \
     --net=host \
     --ulimit memlock=-1 \
     --rm -it \
+    $EXTRA_ARGS \
     -v ${PWD}:/workspace \
     -w /workspace \
     $DOCKER_IMG \
