@@ -19,5 +19,6 @@ python scripts/nlp_language_modeling/prepare_packed_ft_dataset.py \
    model.data.train_ds.file_names=[$FILEPATH] \
    model.data.train_ds.max_seq_length=$MAX_SEQ_LEN \
    model.restore_from_path=$NEMO_MODEL \
+   +model.data.chat=True \
    +output_dir=$OUTPUT_DIR \
    +pack_sizes=[$MAX_SEQ_LEN]

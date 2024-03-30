@@ -1,8 +1,6 @@
 #!/bin/bash
-# DOCKER_IMG=xingyaoww/nemo:24.01.01.framework
-# DOCKER_IMG=nvcr.io/nvidia/nemo:24.01.01.framework
-
 # cd NeMo; docker build -t xingyaoww/nemo:main .
+# docker push xingyaoww/nemo:main
 DOCKER_IMG=xingyaoww/nemo:main
 WORK_DIR=`pwd`
 
