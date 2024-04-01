@@ -15,10 +15,18 @@ OUTPUT_DIR=$(realpath $OUTPUT_DIR)
 export PYTHONPATH=$(pwd)/NeMo:$(pwd)/Megatron-LM:$PYTHONPATH
 
 pushd NeMo/
-python scripts/nlp_language_modeling/prepare_packed_ft_dataset.py \
+
+python scripts/nlp_language_modeling/prepare_packed_ft_chat_dataset.py \
    model.data.train_ds.file_names=[$FILEPATH] \
    model.data.train_ds.max_seq_length=$MAX_SEQ_LEN \
    model.restore_from_path=$NEMO_MODEL \
-   +model.data.chat=True \
    +output_dir=$OUTPUT_DIR \
-   +pack_sizes=[$MAX_SEQ_LEN]
+   +pack_sizes=[$MAX_SEQ_LEN] \
+   +model.data.chat=True \
+   '+model.data.chat_prompt_tokens.system_turn_start="<|im_start|>"' \
+   '+model.data.chat_prompt_tokens.system_role="system"' \
+   '+model.data.chat_prompt_tokens.turn_start="<|im_start|>"' \
+   '+model.data.chat_prompt_tokens.label_start="<|im_start|>"' \
+   '+model.data.chat_prompt_tokens.end_of_turn="<|im_end|>\n"' \
+   '+model.data.chat_prompt_tokens.end_of_name="\n"' \
+   '+model.data.chat_prompt_tokens.add_special_tokens=["<|im_start|>", "<|im_end|>"]'

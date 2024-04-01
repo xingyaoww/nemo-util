@@ -30,4 +30,27 @@ MODEL_DIR=`pwd`/data/models/converted_hf ./scripts/docker/run_nemo_interactive.s
 
 Then you will be able to see your model at `data/models/nemo/mistral-7b-base.nemo`.
 
+## Step 2: Prepare your dataset
+
+We will use [CodeActInstruct](https://huggingface.co/datasets/xingyaoww/code-act) for example. You can first download it to `.jsonl` files:
+
+```bash
+python3 scripts/data/download_dataset_from_hf.py
+```
+
+Because CodeActInstruct uses OpenAI messages format for chat, you need to convert it to NeMo's chat format. Comparison between two format can be found [here](./scripts/data/convert_openai_to_nemo_chat_format.py).
+
+```bash
+python3 scripts/data/convert_openai_to_nemo_chat_format.py \
+    data/datasets/codeact.jsonl,data/datasets/general.jsonl \
+    --output_file data/datasets/codeact-mixture.nemo.jsonl
+```
+
+Then you can pack shorter examples in `data/datasets/codeact-mixture.nemo.jsonl` to a longer sequence by running:
+
+```bash
+./scripts/data/convert_nemo_chat_to_packed.sh
+```
+
+This script by default uses ChatML chat template and max sequence length of 16k. You can customize the script to better suite your need.
 
