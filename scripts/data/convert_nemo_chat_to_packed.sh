@@ -22,6 +22,7 @@ python scripts/nlp_language_modeling/prepare_packed_ft_chat_dataset.py \
    model.restore_from_path=$NEMO_MODEL \
    +output_dir=$OUTPUT_DIR \
    +pack_sizes=[$MAX_SEQ_LEN] \
+   +seed=42 \
    +model.data.chat=True \
    '+model.data.chat_prompt_tokens.system_turn_start="<|im_start|>"' \
    '+model.data.chat_prompt_tokens.system_role="system"' \
