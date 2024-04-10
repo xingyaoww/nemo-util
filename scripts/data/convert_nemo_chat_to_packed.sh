@@ -1,10 +1,10 @@
 #!/bin/bash
 
-FILEPATH=data/datasets/codeact.nemo.jsonl
+FILEPATH=data/datasets/codeact-mixture.nemo.jsonl
 NEMO_MODEL=data/models/nemo/mistral-7b-base.nemo
 MAX_SEQ_LEN=16384
 
-OUTPUT_DIR=data/datasets_packed/codeact_mistral_7b_16k
+OUTPUT_DIR=data/datasets_packed/codeact_mixture_mistral_7b_16k
 mkdir -p $OUTPUT_DIR
 
 # make all paths absolute

@@ -14,7 +14,7 @@ You should `git clone` the model to `data/models/raw_hf` first following hugging
 You should add chatML tokens to the model's tokenizer and re-size the model's embedding for subsequent SFT.
 
 ```bash
-python3 scripts/model_conversion/expand_mistral_7b_tokenizer.py \
+python3 scripts/model_conversion/expand_mistral_7b_hf.py \
     --ckpt_dir data/models/raw_hf/Mistral-7B-v0.1 \
     --output_dir data/models/converted_hf/Mistral-7B-v0.1
 ```
@@ -53,4 +53,5 @@ Then you can pack shorter examples in `data/datasets/codeact-mixture.nemo.jsonl`
 ```
 
 This script by default uses ChatML chat template and max sequence length of 16k. You can customize the script to better suite your need.
+
 
