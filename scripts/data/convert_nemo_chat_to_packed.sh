@@ -2,9 +2,9 @@
 
 FILEPATH=data/datasets/codeact-mixture.nemo.jsonl
 NEMO_MODEL=data/models/nemo/mistral-7b-base.nemo
-MAX_SEQ_LEN=16384
+MAX_SEQ_LEN=32768
 
-OUTPUT_DIR=data/datasets_packed/codeact_mixture_mistral_7b_16k
+OUTPUT_DIR=data/datasets_packed/codeact_mixture_mistral_7b_32k
 mkdir -p $OUTPUT_DIR
 
 # make all paths absolute
