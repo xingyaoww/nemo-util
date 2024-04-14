@@ -18,6 +18,7 @@ docker run \
     --shm-size=2g \
     --net=host \
     --ulimit memlock=-1 \
+    -e WANDB_API_KEY \
     --rm -it \
     $EXTRA_ARGS \
     -v ${PWD}:/workspace \
