@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# debugging flags (optional)
+export NCCL_DEBUG=INFO
+export PYTHONFAULTHANDLER=1
+
 NEMO_MODEL=data/models/nemo/mistral-7b-base.nemo
 
 MAX_SEQ_LEN=16384
