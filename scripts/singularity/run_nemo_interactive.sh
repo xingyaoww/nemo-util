@@ -1,7 +1,8 @@
 #!/bin/bash
 
 WORK_DIR=`pwd`
-IMAGE=nemo_main_2_0.sif
+IMAGE=nemo_main.sif
+# IMAGE=nemo_main_2_0.sif
 # only for verify correctness - since NCSA cuda driver version does not fully support it yet
 echo "WORK_DIR=$WORK_DIR"
 echo "IMAGE=$IMAGE"

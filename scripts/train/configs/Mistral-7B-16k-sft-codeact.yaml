@@ -4,7 +4,7 @@ name: megatron_mistral_sft_codeact
 trainer:
   devices: 4
   accelerator: gpu
-  num_nodes: 4
+  num_nodes: 2
   precision: bf16
   logger: False # logger provided by exp_manager
   enable_checkpointing: False
@@ -39,14 +39,30 @@ exp_manager:
 model:
   seed: 42
   tensor_model_parallel_size: 4 # intra-layer model parallelism
-  pipeline_model_parallel_size: 4 # inter-layer model parallelism
+  pipeline_model_parallel_size: 2 # inter-layer model parallelism
   global_batch_size: ??
   micro_batch_size: 1
   restore_from_path: ??? # Path to an existing p-tuned/prompt tuned .nemo model you wish to add new tasks to or run inference with
   resume_from_checkpoint: null # The path to a checkpoint file to continue the training, restores the whole state including the epoch, step, LR schedulers, apex, etc.
   save_nemo_on_validation_end: True # Saves an inference ready .nemo file every time a checkpoint is saved during training. 
   sync_batch_comm: False
-  megatron_amp_O2: False
+
+  ## Copied from Baichuan2
+  mcore_gpt: True
+  gradient_as_bucket_view: True # PyTorch DDP argument. Allocate gradients in a contiguous bucket to save memory (less fragmentation and buffer memory)
+  # Megatron O2-style half-precision
+  megatron_amp_O2: True # Enable O2-level automatic mixed precision using main parameters # False!!!
+  grad_allreduce_chunk_size_mb: 125
+  overlap_p2p_comm: False # Overlap p2p communication with computes. This argument is valid only when `virtual_pipeline_model_parallel_size` is larger than 1
+  batch_p2p_comm: True # Batch consecutive inter-peer send/recv operations. This argument is valid only when `virtual_pipeline_model_parallel_size` is larger than 1
+
+  # Fusion
+  grad_div_ar_fusion: True # Fuse grad division into torch.distributed.all_reduce. Only used with O2 and no pipeline parallelism..
+  gradient_accumulation_fusion: False # Fuse weight gradient accumulation to GEMMs. Only used with pipeline parallelism and O2.
+  bias_activation_fusion: False # Use a kernel that fuses the bias addition from weight matrices with the subsequent activation function.
+  bias_dropout_add_fusion: False # Use a kernel that fuses the bias addition, dropout and residual connection addition.
+  masked_softmax_fusion: True # Use a kernel that fuses the attention softmax with it's mask.
+  get_attention_mask_from_fusion: True # When using fused softmax it will create the attention mask so we won't copy it to the pipeline stages.
 
   ## Sequence Parallelism
   # Makes tensor parallelism more memory efficient for LLMs (20B+) by parallelizing layer norms and dropout sequentially
@@ -59,10 +75,9 @@ model:
   # 'uniform' divides the total number of transformer layers and checkpoints the input activation
   # of each chunk at the specified granularity
   # 'block' checkpoints the specified number of layers per pipeline stage at the specified granularity
-  activations_checkpoint_num_layers: 8 # not used with 'selective'
+  activations_checkpoint_num_layers: 1 # not used with 'selective'
   activations_checkpoint_layers_per_pipeline: null
   answer_only_loss: True
-  gradient_as_bucket_view: False
 
   hidden_dropout: 0.0
   attention_dropout: 0.0

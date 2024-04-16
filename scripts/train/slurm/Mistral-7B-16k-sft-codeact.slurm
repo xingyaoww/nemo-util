@@ -1,10 +1,10 @@
 #!/bin/bash -l
 
-#SBATCH --job-name="nemo_finetune_4xA40x2"
-#SBATCH --output="logs/%j.%N.nemo_finetune_4xA40x2.out"
-#SBATCH --partition=gpuA40x4
+#SBATCH --job-name="nemo_finetune_4xA100x2"
+#SBATCH --output="logs/%j.%N.nemo_finetune_4xA100x2.out"
+#SBATCH --partition=gpuA100x4
 #SBATCH --mem=208G
-#SBATCH --nodes=4
+#SBATCH --nodes=2
 #SBATCH --ntasks-per-node=4  # could be 1 for py-torch
 #SBATCH --cpus-per-task=16   # spread out to use 1 core per numa, set to 64 if tasks is 1
 #SBATCH --constraint="scratch&projects"
@@ -13,7 +13,7 @@
 #SBATCH --account=bcbf-delta-gpu
 #SBATCH --exclusive  # dedicated node for this job
 #SBATCH --no-requeue
-#SBATCH -t 00:30:00
+#SBATCH -t 05:00:00
 
 module reset # drop modules and explicitly load the ones needed
              # (good job metadata and reproducibility)
