@@ -3,7 +3,7 @@
 ```
 git clone https://github.com/xingyaoww/nemo-util
 git submodule update --init --recursive
-cd NeMo; git checkout -b chatml-support
+cd NeMo; git checkout chatml-support; cd ..
 ```
 
 # SFT Training pipleine (use Mistral-7B as an example)
