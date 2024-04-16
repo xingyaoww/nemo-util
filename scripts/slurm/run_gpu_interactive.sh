@@ -9,6 +9,7 @@ srun \
     --tasks=1 \
     --cpus-per-task=16 \
     --partition=gpuA40x4 \
+    --constraint='scratch&projects' \
     --gpus=1 \
     --mem=64g \
     --pty /bin/bash
