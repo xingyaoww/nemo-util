@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "You supposed to run this script inside the docker container"
 
-MODEL_PATH=/models/Mixtral-8x7B-v0.1/
+MODEL_PATH=data/models/raw_hf/Mixtral-8x7B-v0.1
 OUTPUT_NAME=mixtral-8x7b-base.nemo
 
 # Override the installed version of Megatron-LM, but use the cloned version
