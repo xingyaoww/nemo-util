@@ -13,20 +13,25 @@
 #SBATCH --account=bcbf-delta-gpu
 #SBATCH --exclusive  # dedicated node for this job
 #SBATCH --no-requeue
-#SBATCH -t 05:00:00
+#SBATCH -t 00:30:00
 
 module reset # drop modules and explicitly load the ones needed
              # (good job metadata and reproducibility)
              # $WORK and $SCRATCH are now set
 module list  # job documentation and metadata
 
-
 # on your cluster you might need these:
 # set the network interface
-# export NCCL_SOCKET_IFNAME=^docker0,lo
+export NCCL_SOCKET_IFNAME=hsn
+export NCCL_SOCKET_NTHREADS=8
+export NCCL_NSOCKS_PERTHREAD=8
+export NCCL_MIN_NCHANNELS=4
+export NCCL_MAX_NCHANNELS=16
 
 # might need the latest CUDA
 # module load NCCL/2.4.7-1-cuda.10.0
+# module load nccl/2.19.3-1.awsplugin
+# module load cuda/12.4.0
 
 WORK_DIR=/scratch/bcsi/xingyao6/nemo-util
 SINGULARITY_IMAGE=/scratch/bcsi/xingyao6/nemo-util/nemo_main.sif
@@ -46,12 +51,17 @@ fi
 #     $WORK_DIR \
 #     scripts/train/train_mistral.sh
 
+# Testing NCCL
+# cd $WORK_DIR/nccl-tests
+# make CUDA_HOME=$CUDA_HOME NCCL_HOME=$NCCL_HOME
+# srun ./build/all_reduce_perf -b 4 -e 8G -f 2 -g 1 -c 1 -n 10
+# --env "HUGGING_FACE_HUB_TOKEN=$HUGGING_FACE_HUB_TOKEN" \
+
 
 srun apptainer exec \
     --nv \
     --no-home \
     --no-mount bind-paths \
-    --env "HUGGING_FACE_HUB_TOKEN=$HUGGING_FACE_HUB_TOKEN" \
     --env "HF_HOME=/workspace/.cache/huggingface" \
     --env "WANDB_API_KEY=$WANDB_API_KEY" \
     --writable-tmpfs \
